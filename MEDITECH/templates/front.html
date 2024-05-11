@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVD Prediction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap">
+    <style>
+        /*custom font*/
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+/*basic reset*/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+    background: #35bcff; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #6441A5, #2a0845); /* Chrome 10-25, Safari 5.1-6 */
+}
+
+body {
+    font-family: montserrat, arial, verdana;
+    background: transparent;
+}
+h1{
+    margin-top: 30px;
+}
+.photo {
+    width: 15%; /* Adjust width as needed */
+    
+}
+
+.left-photo {
+    width: 10%;
+    float: left;
+    margin-top: 64px;
+    margin-right: 5%; /* Adjust margin as needed */
+}
+
+.right-photo {
+    width: 300px;
+    float: right;
+    margin-top: 30px;
+    margin-left: 5%; /* Adjust margin as needed */
+}
+
+.photo img {
+    width: 100%; /* Ensures the image fills its container */
+    
+}
+
+.container{
+    width: 60%;
+    margin: 1rem auto;
+    padding: 2rem;
+    text-align: justify;
+    transition: all 0.3s;
+}
+.container p{
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+    word-spacing: 2px;
+}
+
+.container p:first-child::first-letter{
+    color:#FE5F55;
+    font-weight: bold;
+    font-size: 70px;
+    float: left;
+    line-height: 60px;
+    padding-right: 8px;
+    margin-top: -3px;
+}
+
+@media screen and (max-width:600px){
+    .container{
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+
+
+
+
+/*form styles*/
+#msform {
+    text-align: center;
+    position: relative;
+    margin-top: 50px;
+}
+
+#msform fieldset {
+    background: rgb(255, 255, 255);
+    border: 0 none;
+    border-radius: 10px;
+    box-shadow: 0 0 25px 1px rgba(0, 0, 0, 0.4);
+    padding: 20px 30px;
+    box-sizing: border-box;
+    width: 30%;
+    margin: 0 35%;
+    display: none; /* Hide all fieldsets by default */
+}
+
+#msform fieldset:first-of-type {
+    display: block; /* Display first fieldset initially */
+}
+
+/*inputs*/
+#msform input, #msform textarea {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    margin-bottom: 10px;
+    width: 50%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    font-size: 13px;
+}
+
+#msform input:focus, #msform textarea:focus {
+    border: 1px solid #09cfee;
+    outline-width: 0;
+    transition: All 0.5s ease-in;
+}
+
+/*buttons*/
+.action-button {
+    width: 50px;
+    background: #0987ee;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+}
+
+.action-button:hover, .action-button:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #000000;
+}
+
+.action-button-previous {
+    width: 100px;
+    background: #00ff84;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+}
+
+.action-button-previous:hover, .action-button-previous:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #C5C5F1;
+}
+
+/*headings*/
+.fs-title {
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #2C3E50;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+/* Adjust the alignment of gender options */
+/* Adjust the alignment of gender options */
+.gender-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gender-options input[type="radio"] {
+    margin-right: 0%; /* Adjust spacing between radio buttons and labels */
+}
+
+
+/*progressbar*/
+#progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    /*CSS counters to number the steps*/
+    counter-reset: step;
+}
+
+#progressbar li {
+    list-style-type: none;
+    color: rgb(255, 255, 255);
+    text-transform: uppercase;
+    font-size: 9px;
+    width: 15%;
+    float: left;
+    position: relative;
+    letter-spacing: 1px;
+}
+
+#progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 24px;
+    height: 24px;
+    line-height: 26px;
+    display: block;
+    font-size: 12px;
+    color: #333;
+    background: rgb(188, 43, 82);
+    border-radius: 25px;
+    margin: 0 auto 10px auto;
+}
+
+/*progressbar connectors*/
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: white;
+    position: absolute;
+    left: -50%;
+    top: 11px; /* Adjusted from 9px */
+    z-index: -1;
+}
+
+#progressbar li:first-child:after {
+    /* connector not needed before the first step */
+    content: none;
+}
+
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbar li.active:before,
+#progressbar li.active:after {
+    background: #09ee55;
+    color: white;
+}
+
+footer {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-top: 10px;
+            align-self:flex-end;
+            text-align:center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="right-container">
+        <header>
+            <center><h1>Cardiovascular Disease Prediction</h1></center>
+            <!-- Form with six fieldsets -->
+            <form id="msform" action="/predict" method="post">
+                <!-- Progress Bar -->
+                <ul id="progressbar">
+                    <li class="active">Age & Height</li>
+                    <li>Gender & Weight</li>
+                    <li>Blood Pressure</li>
+                    <li>Cholesterol & Glucose</li>
+                    <li>Smoking & Alcohol</li>
+                    <li>Physical Activity & Disease History</li>
+                </ul>
+                <!-- Fieldsets -->
+                <fieldset>
+                    <h2 class="fs-title">Age & Height</h2>
+                    <input type="number" id="age" name="age" placeholder="Age" required>
+                    <input type="number" id="height" name="height" placeholder="Height (in cm)" required>
+                    <input type="button" name="next" class="next action-button" value="Next">
+                </fieldset>
+                <fieldset>
+                    <h2 class="fs-title">Gender & Weight</h2>
+                    <div class="gender-options">
+                        <input type="radio" id="male" name="gender" value="Male" required>
+                        <label for="male">Male</label>
+                        <br>
+                        <input type="radio" id="female" name="gender" value="Female" required>
+                        <label for="female">Female</label>
+                    </div>
+                    <input type="number" id="weight" name="weight" placeholder="Weight" required>
+                    <input type="button" name="previous" class="previous action-button-previous" value="Previous">
+                    <input type="button" name="next" class="next action-button" value="Next">
+                </fieldset>
+                <fieldset>
+                    <h2 class="fs-title">Blood Pressure</h2>
+                    <input type="number" id="systolic_blood_pressure" name="systolic_blood_pressure" placeholder="Systolic Blood Pressure" required>
+                    <div class="info">(ENTER RANGE)</div>
+                    <input type="number" id="diastolic_blood_pressure" name="diastolic_blood_pressure" placeholder="Diastolic Blood Pressure" required>
+                    <div class="info">(ENTER RANGE)</div>
+                    <input type="button" name="previous" class="previous action-button-previous" value="Previous">
+                    <input type="button" name="next" class="next action-button" value="Next">
+                </fieldset>
+                <fieldset>
+                    <h2 class="fs-title">Cholesterol & Glucose</h2>
+                    <input type="number" id="cholesterol" name="cholesterol" placeholder="Cholesterol" required>
+                    <div class="info">(1: Normal, 2: Above normal, 3: Well above normal)</div>
+                    <input type="number" id="glucose" name="glucose" placeholder="Glucose" required>
+                    <div class="info">(1: Normal, 2: Above normal, 3: Well above normal)</div>
+                    <input type="button" name="previous" class="previous action-button-previous" value="Previous">
+                    <input type="button" name="next" class="next action-button" value="Next">
+                </fieldset>
+                <fieldset>
+                    <h2 class="fs-title">Smoking & Alcohol</h2>
+                    <input type="number" id="smoke" name="smoke" placeholder="Smoking" required>
+                    <div class="info">(0: Non-Smoker, 1: Smoker)</div>
+                    <input type="number" id="alcohol" name="alcohol" placeholder="Alcohol intake" required>
+                    <div class="info">(0: Non-Alcoholic, 1: Alcoholic)</div>
+                    <input type="button" name="previous" class="previous action-button-previous" value="Previous">
+                    <input type="button" name="next" class="next action-button" value="Next">
+                </fieldset>
+                <fieldset>
+                    <h2 class="fs-title">Physical Activity & Disease History</h2>
+                    <input type="number" id="physical_activity" name="physical_activity" placeholder="Physical Activity" required>
+                    <div class="info">(0: in-Active, 1: Active)</div>
+                    <input type="number" id="cardio" name="cardio" placeholder="Cardiovascular Disease History" required>
+                    <div class="info">(0: in-Active, 1: Active)</div>
+                    <button type="submit" class="action-button">Predict</button>
+                    <input type="button" name="previous" class="previous action-button-previous" value="Previous">
+                </fieldset>
+                
+            </form>
+        </header>
+    </div>
+    <div class="photo left-photo">
+        <img src="https://i.ibb.co/sHjwQwX/1.png" alt="1">
+    </div>
+    <div class="photo right-photo">
+        <img src="https://i.ibb.co/q7LQkbp/Doctors-pana.png" alt="Doctors-pana">
+    </div>
+    
+    <div class="container">
+        <p>
+            Healthy heart starts with awareness. Take the CVD test and take control.
+        Know your heart, save your life! Take the CVD test today.Heart health is in your hands. Test your awareness, safeguard your future
+        "Don't let ignorance be the silent killer. Test your knowledge, prevent heart disease."
+        A healthy heart starts with awareness. Take the CVD test and take control."
+        gnorance is risky business when it comes to your heart. Take the CVD test and stay informed!"
+        </p>
+        <p>
+            "Heart disease doesn't discriminate. Test your awareness and protect your heart, no matter your age or gender."
+            "Your heart's worth fighting for. Take the CVD test and arm yourself with knowledge."
+            "Make heart health a priority. Test your knowledge, take control, and live longer!"
+            "Prevention starts with awareness. Take the CVD test and pave the way for a healthier tomorrow."
+            "Don't wait for a wake-up call from your heart. Test your awareness now and take proactive steps."
+            "Your heart's story isn't written yet. Take the CVD test and shape a healthier future."
+            "Spread love, not heart disease. Test your awareness and be an advocate for heart health."
+            "Life's precious, so is your heart. Test your knowledge, embrace prevention, and cherish every beat."
+            "Your heart deserves attention, not assumptions. Test your awareness and give it the care it deserves."
+        </p></div>
+    <footer>
+        <h6>Thank you for taking the test with us.
+        <a href="https://www.who.int/">Visti WHO </a></h6>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var current_fs, next_fs, previous_fs; // fieldsets
+            var opacity;
+
+            $(".next").click(function () {
+                current_fs = $(this).parent();
+                next_fs = $(this).parent().next();
+
+                // Add active class to the next step in progressbar
+                $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+                // Show the next fieldset
+                next_fs.show();
+                // Hide the current fieldset
+                current_fs.hide();
+            });
+
+            $(".previous").click(function () {
+                current_fs = $(this).parent();
+                previous_fs = $(this).parent().prev();
+
+                // Remove active class from the current step in progressbar
+                $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+
+                // Show the previous fieldset
+                previous_fs.show();
+                // Hide the current fieldset
+                current_fs.hide();
+            });
+
+           
+        });
+    </script>
+</body>
+</html>
